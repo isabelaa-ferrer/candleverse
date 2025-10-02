@@ -329,15 +329,15 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-        // Configuração do Firebase (SUBSTITUA com suas credenciais)
-        const firebaseConfig = {
-            apiKey: "SUA_API_KEY_AQUI",
-            authDomain: "seu-projeto.firebaseapp.com",
-            projectId: "seu-projeto-id",
-            storageBucket: "seu-projeto.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "seu-app-id"
-        };
+            // Configuração do Firebase (SUBSTITUA com suas credenciais)
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYlur9MmKQ0WXbuvCVZh-S2Js2JBkp_Sk",
+        authDomain: "candleverse-a50d0.firebaseapp.com",
+        projectId: "candleverse-a50d0",
+        storageBucket: "candleverse-a50d0.firebasestorage.app",
+        messagingSenderId: "231995691767",
+        appId: "1:231995691767:web:0fc0843521e01a941639f2"
+      };
 
         // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
