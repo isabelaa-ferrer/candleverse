@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandleVerse - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #ff6ec7;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #ff6ec7;
+        }
+
+        input.error {
+            border-color: #ff4444;
+        }
+
+        .error-message {
+            color: #ff4444;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .remember-me label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background: #ff6ec7;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #b283ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 110, 199, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .link-btn {
+            display: block;
+            text-align: center;
+            color: #ff6ec7;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px;
+            transition: color 0.3s;
+        }
+
+        .link-btn:hover {
+            color: #b283ff;
+        }
+
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        /* Modal de Cadastro */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .logo h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>🕯️ CandleVerse</h1>
+            <p>Crie velas únicas e personalizadas</p>
+        </div>
+
+        <div class="success-message" id="successMessage"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="seu@email.com" required>
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha" required>
+                <div class="error-message" id="passwordError"></div>
+            </div>
+
+            <div class="remember-me">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">Lembrar-me</label>
+            </div>
+
+            <div class="loading" id="loading">Carregando...</div>
+
+            <button type="submit" class="btn btn-primary" id="loginBtn">Entrar</button>
+        </form>
+
+        <div class="divider">ou</div>
+
+        <a href="#" class="link-btn" id="createAccountLink">Criar nova conta</a>
+    </div>
+
+    <!-- Modal de Cadastro -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Criar Conta</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupEmail">E-mail</label>
+                    <input type="email" id="signupEmail" placeholder="seu@email.com" required>
+                    <div class="error-message" id="signupEmailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">Senha</label>
+                    <input type="password" id="signupPassword" placeholder="Mínimo 6 caracteres" required>
+                    <div class="error-message" id="signupPasswordError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Senha</label>
+                    <input type="password" id="confirmPassword" placeholder="Digite a senha novamente" required>
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+
+                <div class="loading" id="signupLoading">Criando conta...</div>
+
+                <button type="submit" class="btn btn-primary" id="signupBtn">Criar Conta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Configuração do Firebase (SUBSTITUA com suas credenciais)
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY_AQUI",
+            authDomain: "seu-projeto.firebaseapp.com",
+            projectId: "seu-projeto-id",
+            storageBucket: "seu-projeto.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "seu-app-id"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Elementos do DOM
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const rememberMeCheckbox = document.getElementById('rememberMe');
+        const loginBtn = document.getElementById('loginBtn');
+        const createAccountLink = document.getElementById('createAccountLink');
+        const signupModal = document.getElementById('signupModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const loading = document.getElementById('loading');
+        const signupLoading = document.getElementById('signupLoading');
+        const successMessage = document.getElementById('successMessage');
+
+        // Verificar se usuário já está logado
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                redirectToCustomization();
+            }
+        });
+
+        // Função de Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearErrors();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // Validação
+            if (!email) {
+                showError('emailError', 'Por favor, insira seu e-mail');
+                emailInput.classList.add('error');
+                return;
+            }
+
+            if (!password) {
+                showError('passwordError', 'Por favor, insira sua senha');
+                passwordInput.classList.add('error');
+                return;
+            }
+
+            // Configurar persistência
+            const persistence = rememberMeCheckbox.checked ? browserLocalPersistence : browserSessionPersistence;
+
+            try {
+                loading.classList.add('show');
+                loginBtn.disabled = true;
+
+                await setPersistence(auth, persistence);
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                
+                showSuccess('Login realizado com sucesso!');
+                setTimeout(() => redirectToCustomization(), 1000);
+
+            } catch (error) {
+                handleAuthError(error, 'login');
+            } finally {
+                loading.classList.remove('show');
+                loginBtn.disabled = false;
+            }
+        });
+
+        // Abrir modal de cadastro
+        createAccountLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.classList.add('show');
+        });
+
+        // Fechar modal
+        closeModalBtn.addEventListener('click', () => {
+            signupModal.classList.remove('show');
+            signupForm.reset();
+            clearErrors('signup');
+        });
+
+        // Fechar modal ao clicar fora
+        signupModal.addEventListener('click', (e) => {
+            if (e.target === signupModal) {
+                signupModal.classList.remove('show');
+            }
+        });
+
+        // Função de Cadastro
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearErrors('signup');
+
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validações
+            if (!email) {
+                showError('signupEmailError', 'Por favor, insira seu e-mail');
+                document.getElementById('signupEmail').classList.add('error');
+                return;
+            }
+
+            if (!password || password.length < 6) {
+                showError('signupPasswordError', 'A senha deve ter no mínimo 6 caracteres');
+                document.getElementById('signupPassword').classList.add('error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('confirmPasswordError', 'As senhas não coincidem');
+                document.getElementById('confirmPassword').classList.add('error');
+                return;
+            }
+
+            try {
+                signupLoading.classList.add('show');
+                document.getElementById('signupBtn').disabled = true;
+
+                await createUserWithEmailAndPassword(auth, email, password);
+                
+                signupModal.classList.remove('show');
+                showSuccess('Conta criada com sucesso! Redirecionando...');
+                setTimeout(() => redirectToCustomization(), 1500);
+
+            } catch (error) {
+                handleAuthError(error, 'signup');
+            } finally {
+                signupLoading.classList.remove('show');
+                document.getElementById('signupBtn').disabled = false;
+            }
+        });
+
+        // Funções auxiliares
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            setTimeout(() => successMessage.classList.remove('show'), 3000);
+        }
+
+        function clearErrors(form = 'login') {
+            const inputs = form === 'login' 
+                ? [emailInput, passwordInput]
+                : [document.getElementById('signupEmail'), document.getElementById('signupPassword'), document.getElementById('confirmPassword')];
+
+            inputs.forEach(input => input.classList.remove('error'));
+
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => msg.classList.remove('show'));
+        }
+
+        function handleAuthError(error, type) {
+            const errorMessages = {
+                'auth/invalid-email': 'E-mail inválido',
+                'auth/user-disabled': 'Usuário desabilitado',
+                'auth/user-not-found': 'Usuário não encontrado',
+                'auth/wrong-password': 'Senha incorreta',
+                'auth/email-already-in-use': 'E-mail já cadastrado',
+                'auth/weak-password': 'Senha muito fraca',
+                'auth/network-request-failed': 'Erro de conexão. Verifique sua internet',
+                'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde'
+            };
+
+            const message = errorMessages[error.code] || 'Erro ao processar solicitação';
+
+            if (type === 'login') {
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                    showError('passwordError', message);
+                    passwordInput.classList.add('error');
+                } else {
+                    showError('emailError', message);
+                    emailInput.classList.add('error');
+                }
+            } else {
+                showError('signupEmailError', message);
+                document.getElementById('signupEmail').classList.add('error');
+            }
+        }
+
+        function redirectToCustomization() {
+            window.location.href = '/custom';
+        }
+
+        // Função de logout (disponível globalmente)
+        window.logout = async function() {
+            try {
+                await signOut(auth);
+                showSuccess('Logout realizado com sucesso!');
+            } catch (error) {
+                console.error('Erro ao fazer logout:', error);
+            }
+        };
+    </script>
+</body>
+</html>
